@@ -12,6 +12,8 @@ You will see all project in a given directory.
 
 Select project and open it.
 
+# Packal download
+http://www.packal.org/workflow/open-any-phpstorm-project-directly-alfred
 
 
 # Enjoy!
