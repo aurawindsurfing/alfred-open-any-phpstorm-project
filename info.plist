@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.veraxus.aurawindsurfing.phpstorm</string>
+	<key>connections</key>
+	<dict>
+		<key>CC0D7C57-8BD9-48D8-A467-6123569E8F62</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F40B73A3-87C9-4B3A-824F-F080E8D706C9</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Dutch van Andel forked by aurawindsurfing</string>
+	<key>description</key>
+	<string>Open any project in PhpStorm</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Open PhpStorm Project Directly from Alfred</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>php</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>query=$1
+
+# Tilde needs to be explciitly expanded
+projPath=${projPath/\~/$HOME}
+
+output=$(find "${projPath}" -type d -mindepth 1 -maxdepth 1 -iname "*${query}*")
+
+echo '&lt;?xml version="1.0" encoding="utf-8"?&gt;'
+echo "&lt;items&gt;"
+echo "${output}" | while IFS= read -r line
+do
+	escapedline="$(echo ${line} | sed 's/ /\\\ /g' )"
+	base="$(basename "${escapedline}" )"
+	echo '&lt;item valid="yes"&gt;'
+	echo "&lt;title&gt;${base}&lt;/title&gt;"
+	echo "&lt;subtitle&gt;&lt;![CDATA[${line}]]&gt;&lt;/subtitle&gt;"
+	echo "&lt;arg&gt;&lt;![CDATA[${line}]]&gt;&lt;/arg&gt;"
+	echo '&lt;/item&gt;'
+done
+if [[ -z "${output}" ]]
+then
+	echo '&lt;item valid="yes"&gt;'
+	echo "&lt;title&gt;😢 Nothing Found!&lt;/title&gt;"
+	echo "&lt;subtitle&gt;Try a different search term.&lt;/subtitle&gt;"
+	echo "&lt;arg&gt;&lt;![CDATA[${query}]]&gt;&lt;/arg&gt;"
+	echo '&lt;/item&gt;'
+fi
+echo "&lt;/items&gt;"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>The directory for your IDE project...</string>
+				<key>title</key>
+				<string>your-project-directory</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>CC0D7C57-8BD9-48D8-A467-6123569E8F62</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>103</integer>
+				<key>script</key>
+				<string>query=$1
+
+open -a $ideAppName --args "$query"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F40B73A3-87C9-4B3A-824F-F080E8D706C9</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Opens the given PHPStorm project. You can amend project path in "projPath"</string>
+	<key>uidata</key>
+	<dict>
+		<key>CC0D7C57-8BD9-48D8-A467-6123569E8F62</key>
+		<dict>
+			<key>note</key>
+			<string>Get projects inside the configured project directory.</string>
+			<key>xpos</key>
+			<integer>145</integer>
+			<key>ypos</key>
+			<integer>105</integer>
+		</dict>
+		<key>F40B73A3-87C9-4B3A-824F-F080E8D706C9</key>
+		<dict>
+			<key>note</key>
+			<string>Open the selected directory in PhpStorm</string>
+			<key>xpos</key>
+			<integer>335</integer>
+			<key>ypos</key>
+			<integer>105</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>ideAppName</key>
+		<string>PhpStorm</string>
+		<key>projPath</key>
+		<string>~/Sites</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>2.0.1</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
