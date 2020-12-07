@@ -116,7 +116,7 @@ echo "&lt;/items&gt;"</string>
 				<key>script</key>
 				<string>query=$1
 
-open -a $ideAppName --args "$query"</string>
+open -a $ideAppName -n --args "$query"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
